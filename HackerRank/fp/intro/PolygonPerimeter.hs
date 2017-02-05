@@ -20,11 +20,10 @@
 -}
 
 main :: IO ()
-main = do
-    content <- getContents
-    let input = map words $ tail $ lines content
-    let points = map (\x -> (read $ head x, read $ last x)) input :: [(Double, Double)]
-    print $ perimeter points
+main = getContents >>= (print . perimeter . parsePolygon)
+
+parsePolygon :: String -> [(Double, Double)]
+parsePolygon input = map ((\x -> (read $ head x, read $ last x)) . words) $ tail $ lines input
 
 -- Precondition: at least 3 points
 perimeter :: [(Double, Double)] -> Double
